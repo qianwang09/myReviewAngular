@@ -1,0 +1,30 @@
+<p-tabView>
+  <p-tabPanel header="Confidential Matches">
+    <p-dataTable [value]="confidentials" resizableColumns="true" selectionMode="single"
+      [responsive]="true" [stacked]="stacked" [loading]="loading" loadingIcon="fa-spinner" 
+      [paginator]="true" [rows]="rows"  [totalRecords]="totalRecords"  (onPage)="onPage($event)"
+      dataKey="ResultId">
+      <p-column field="TransId" header="TransId"  hidden="true" [style]="{'display':'none'}"></p-column>
+      <p-column field="ResultId" header="ResultId"  hidden="true" [style]="{'display':'none'}"></p-column>
+      <p-column field="Status" header="Status" [sortable]="true" [style]="{'width':'10%'}"></p-column>
+      <p-column field="ClientName" header="Client"></p-column>
+      <p-column field="ProjectName" header="Project Name" [sortable]="true" [style]="{'width':'10%'}"></p-column>
+      <p-column field="AssessmentTypeName" header="Assessment" [style]="{'width':'30%'}"></p-column>
+      <p-column field="LastModifyDate" header="Last Modified" [style]="{'width':'10%'}"></p-column>   
+      <p-footer>
+      </p-footer>
+    </p-dataTable>
+  </p-tabPanel>
+  <p-tabPanel header="My Maintenance of Data">
+    Content 2
+  </p-tabPanel>
+  <p-tabPanel header="Independence Assessment">
+    Content 3
+  </p-tabPanel>
+  <p-tabPanel header="Conflict Pre clearance">
+    Content 3
+  </p-tabPanel>
+  <p-tabPanel header="Quick RC">
+    Content 3
+  </p-tabPanel>
+</p-tabView>
