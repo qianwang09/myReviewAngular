@@ -1,0 +1,40 @@
+  html {
+    height: 100%;
+  }
+  body{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+.bodycontainer {
+   min-height: 100%;
+  height: auto;
+  position: relative;
+}
+
+
+#footer {
+  position: absolute;
+  height: 20px;
+  font-size: 13px;
+  text-align: right;
+  bottom: 5px;
+  left: 0px;
+  width:90%;
+}
+
+body {
+  font-size: 14px;
+}
+
+div.content{
+  min-height: 450px;
+  margin-top: 30px;
+}
+
+#editmessagecontainer.ui-growl{
+  top:40%;
+  left: 40%;
+  width: 200px;
+}

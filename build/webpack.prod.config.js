@@ -12,9 +12,9 @@ module.exports = webpackMerge(commonConfig, {
   devtool: 'cheap-module-eval-source-map',
 
   output: {
-    path: helpers.root('./../../Content/Web/Admin/TOWCodeMapping/'),
+    path: helpers.root('./../../Content/Web/MyAssessment/MyReview'),
     //path: helpers.root('dist'),
-    publicPath: '/vRiskwebsite/Content/Web/Admin/TOWCodeMapping/',
+    publicPath: '/vRiskwebsite/Content/Web/MyAssessment/MyReview',
     filename: '[name].js',
     chunkFilename: '[id].chunk.js'
     // filename: '[name].[hash].js',
@@ -36,7 +36,7 @@ module.exports = webpackMerge(commonConfig, {
       new HtmlWebpackPlugin({
       title: "vRisk",
       //filename: 'index.html',
-      filename: './../../../../views/Admin/TOWCodeMapping/index.cshtml',
+      filename: './../../../../views/MyAssessment/myReview.cshtml',
       favicon: 'src/favicon.ico',
       template: 'src/index.html'
     }),

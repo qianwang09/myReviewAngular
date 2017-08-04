@@ -10,11 +10,13 @@ import 'rxjs';
 
 import { InputTextModule, DataTableModule, ButtonModule, DialogModule, TooltipModule, ConfirmDialogModule, ConfirmationService, GrowlModule, TabViewModule } from 'primeng/primeng';
 import { AppComponent } from './app.component';
+import { MyReviewHeader } from './myReviewHeader.component';
 import { MyReviewService } from './service/MyReviewService'
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MyReviewHeader
   ],
   imports: [
     BrowserModule,

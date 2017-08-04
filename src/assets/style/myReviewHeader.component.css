@@ -1,0 +1,109 @@
+  header.pwcLogo {
+      display: block;
+      position: fixed;
+      clear: both;
+      z-index: 5;
+      height: 80px;
+      width: 100%;
+      min-width: 1028px;
+      padding: 0;
+      background: url(../images/pwc_logo.png) 25px 10px no-repeat #fff;
+  }
+
+  #headerRight {
+      padding-right: 2.5%;
+      float: right;
+      margin-top: 10px;
+  }
+
+  #quickLink {
+      color: #eb8c00;
+      text-align: right;
+  }
+
+  #quickLink li {
+      float: right;
+      background: none;
+  }
+
+  #quickLink a {
+      color: #404041;
+      text-decoration: none;
+  }
+
+  #welcomeMsg {
+      clear: both;
+      margin-top: 37px;
+      text-align: right;
+  }
+
+  #mainNav {
+      clear: both;
+      display: block;
+      position: fixed;
+      width: 100%;
+      min-width: 900px;
+      top: 75px;
+      height: 39px;
+      background-color: #a32020;
+      -webkit-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.3);
+      -moz-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.3);
+      box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.3);
+  }
+
+  #mainNav ul {
+      margin: 0;
+      padding: 0;
+      clear: both;
+  }
+
+  #mainNav ul li {
+      display: block;
+      float: left;
+      margin: 0;
+      padding: 0;
+      background: none;
+      padding-right: 35px;
+  }
+
+  #mainNav ul li a {
+      position: relative;
+      display: block;
+      height: 16px;
+      padding-top: 12px;
+      text-decoration: none;
+      color: #fff;
+      line-height: 100%;
+  }
+
+  #mainNav ul li.active a {
+      border-bottom: 3px solid #eb8c00;
+  }
+
+  #mainNav ul li:first-child {
+      padding-right: 4px;
+  }
+
+  #mainNav ul li:first-child a {
+      position: relative;
+      top: -4px;
+      left: 0;
+      background: url(../images/vConcierge_nav_bg.png) top right no-repeat;
+      width: 132px;
+      padding: 5px 0 0 16px;
+      height: 42px;
+      font: bold italic 15px/220% Georgia, "Times New Roman", Times, serif;
+  }
+
+  #appName {
+      float: left;
+      display: block;
+      height: 24px;
+      border-left: 4px solid #eb8c00;
+      position: relative;
+      left: 120px;
+      top: 40px;
+      padding-left: 28px;
+      font: bold italic 20px/120% Georgia, "Times New Roman", Times, serif;
+      color: #404041;
+  }

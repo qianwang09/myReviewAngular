@@ -9,8 +9,9 @@ import { MyReviewService } from './service/MyReviewService';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  providers: [MyReviewService]
+  styleUrls: ['../assets/style/app.component.css'],
+  providers: [MyReviewService],
+  
 })
 export class AppComponent {
   title = 'My Reviewer';
