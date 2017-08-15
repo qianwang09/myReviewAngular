@@ -117,7 +117,7 @@ module.exports = {
       name: ['app', 'vendor', 'angular', 'polyfills']
     }),
   
-    new ExtractTextPlugin("./assets/style/[name].css"),
+    new ExtractTextPlugin("style/[name].css"),
     // new copyWebpackPlugin([{
     //   from:  "./node_modules/font-awesome/css/",
     //   toType:"file",

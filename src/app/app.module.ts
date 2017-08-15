@@ -8,15 +8,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import 'rxjs/add/operator/toPromise';
 import 'rxjs';
 
-import { InputTextModule, DataTableModule, ButtonModule, DialogModule, TooltipModule, ConfirmDialogModule, ConfirmationService, GrowlModule, TabViewModule } from 'primeng/primeng';
+import { InputTextModule, DataTableModule, ButtonModule, DialogModule, TooltipModule, ConfirmDialogModule, ConfirmationService, 
+  GrowlModule, TabViewModule, DropdownModule } from 'primeng/primeng';
 import { AppComponent } from './app.component';
-import { MyReviewHeader } from './myReviewHeader.component';
 import { MyReviewService } from './service/MyReviewService'
+import { DatePipe } from '@angular/common';
+import { DateformatPipe } from './pipe/DateformatPipe';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    MyReviewHeader
+    DateformatPipe
   ],
   imports: [
     BrowserModule,
@@ -30,7 +33,8 @@ import { MyReviewService } from './service/MyReviewService'
     TooltipModule,
     ConfirmDialogModule,
     GrowlModule,
-    TabViewModule
+    TabViewModule,
+    DropdownModule
   ],
   providers: [MyReviewService, ConfirmationService],
   bootstrap: [AppComponent]

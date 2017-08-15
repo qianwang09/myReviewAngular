@@ -4,7 +4,7 @@ export class ConflictPreClearance {
   ResultId: number;
   Status: string;  
   ClientName: string;
-  ClientId: number;
+  ClientID: number;
   ProjectName: string;
   AssessmentTypeName: string;
   AssessmentUrl: string;

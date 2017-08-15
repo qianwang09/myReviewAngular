@@ -1,20 +1,46 @@
+@model vRiskWebSite.Models.CommonModel 
 @{
-    Layout = null;
-    }
+   ViewBag.Title = "ReviewerPage"; 
+   Layout = null; 
+}
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
-  <title>Clinew</title>
+  <title>ReviewerPage</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!--<link rel="icon" type="image/x-icon" href="favicon.ico">-->
   <!--<link rel="stylesheet" type="text/css" href="./assets/style/font-awesome.css" />
 <link rel="stylesheet" type="text/css" href="./assets/style/theme.css" />
 <link rel="stylesheet" type="text/css" href="./assets/style/primeng.css" />-->
 </head>
+
 <body>
+  <header class="pwcLogo">
+    <div id="headerRight">
+      <ul id="quickLink">
+        <li><a href="javascript:void(window.open('https://janus2/Feedback/Home/Index?appcode=pwcrisk','_blank'));">My Feedback</a></li>
+        <li>|</li>
+        <li><a href="http://visionhelp/guide/" target="_blank">Help</a></li>
+        <li>|</li>
+        <li><a href="@Url.Action(" LogOut ")">Logout</a></li>
+      </ul>
+      <div id="welcomeMsg">Welcome, @Model.LoginStaffName [@(ViewData.Keys.Contains("CurrentUserRole") ? ViewBag.CurrentUserRole : "")]</div>
+    </div>
+    <div id="mainNav">
+      <ul>
+        <li><a href="http://vConcierge">vConcierge</a></li>
+        <li><a href="#">Opportunity Identification</a></li>
+        <li class="active"><a href="#">Acceptance &amp; Continuance</a></li>
+        <li><a href="#">Team Identification</a></li>
+        <li><a href="#">Engagement Management</a></li>
+      </ul>
+    </div>
+  </header>
   <div class="bodycontainer">
-      <app-root></app-root>
+    <app-root></app-root>
   </div>
 </body>
+
 </html>

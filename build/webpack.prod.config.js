@@ -8,13 +8,13 @@ var helpers = require('./helpers');
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 
 module.exports = webpackMerge(commonConfig, {
-  //devtool: 'source-map',
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'source-map',
+  // devtool: 'cheap-module-eval-source-map',
 
   output: {
-    path: helpers.root('./../../Content/Web/MyAssessment/MyReview'),
+    path: helpers.root('./../../Content/Web/MyAssessment/MyReview/'),
     //path: helpers.root('dist'),
-    publicPath: '/vRiskwebsite/Content/Web/MyAssessment/MyReview',
+    publicPath: '/vRiskwebsite/Content/Web/MyAssessment/MyReview/',
     filename: '[name].js',
     chunkFilename: '[id].chunk.js'
     // filename: '[name].[hash].js',

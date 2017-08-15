@@ -1,32 +1,244 @@
-<myReviewHeader>
-</myReviewHeader>
-<p-tabView>
-  <p-tabPanel header="Confidential Matches">
-    <p-dataTable [value]="confidentials" resizableColumns="true" selectionMode="single"
-      [responsive]="true" [stacked]="stacked" [loading]="loading" loadingIcon="fa-spinner" 
-      [paginator]="true" [rows]="rows"  [totalRecords]="totalRecords"  (onPage)="onPage($event)"
-      dataKey="ResultId">
-      <p-column field="TransId" header="TransId"  hidden="true" [style]="{'display':'none'}"></p-column>
-      <p-column field="ResultId" header="ResultId"  hidden="true" [style]="{'display':'none'}"></p-column>
-      <p-column field="Status" header="Status" [sortable]="true" [style]="{'width':'10%'}"></p-column>
-      <p-column field="ClientName" header="Client"></p-column>
-      <p-column field="ProjectName" header="Project Name" [sortable]="true" [style]="{'width':'10%'}"></p-column>
-      <p-column field="AssessmentTypeName" header="Assessment" [style]="{'width':'30%'}"></p-column>
-      <p-column field="LastModifyDate" header="Last Modified" [style]="{'width':'10%'}"></p-column>   
-      <p-footer>
-      </p-footer>
+<p-tabView [activeIndex]="activeIndex" (onChange)="tabChangeHandler($event)" id="myreview-tabview">
+  <p-tabPanel selected="true" lazy="false" header="Confidential Matches" [headerStyle]="{'font-size':'15px'}">
+    <p-dataTable [value]="confidentials" resizableColumns="true" selectionMode="single" [loading]="confidentialLoading" loadingIcon="fa-spinner"
+      [paginator]="true" [rows]="confidentialRows" [totalRecords]="confidentialTotalRecords" [(first)]="confidentialFirst"
+      [rowsPerPageOptions]="[15,30,100]" [lazy]="true" (onLazyLoad)="GetConfidentialMatch($event)" #confidentialdt [responsive]="true">
+      <!-- <p-header>
+        <div class="ui-helper-clearfix">
+          <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="confidentialdt.exportCSV()" style="float:right"></button>
+        </div>
+      </p-header> -->
+      <!-- [responsive]="true" [stacked]="stacked" -->
+      <p-column field="TransId" header="TransId" hidden="true" [style]="{'display':'none'}"></p-column>
+      <p-column field="ResultId" header="ResultId" hidden="true" [style]="{'display':'none'}"></p-column>
+      <p-column field="Status" header="Status" [style]="{'width':'13%'}">
+        <ng-template let-col let-confidential="rowData" let-ri="rowIndex" pTemplate="body">
+          <span [class.reviewedTag]="confidential[col.field]=='Completed'" [class.pendingTag]="confidential[col.field]!='Completed'">
+            {{confidential[col.field]}}</span>
+        </ng-template>
+      </p-column>
+      <p-column field="ClientName" header="Client" [filter]="true" filterMatchMode="contains">
+        <ng-template pTemplate="filter" let-col>
+          <input (keyup.enter)="confidentialdt.filter($event.value,col.field,col.filterMatchMode)" [(ngModel)]="confidentialSearchClientName"
+            type="text" placeholder="Search Client Name" class="ui-column-filter ui-inputtext ui-widget ui-state-default ui-corner-all"
+          />
+        </ng-template>
+        <ng-template let-col let-confidential="rowData" let-ri="rowIndex" pTemplate="body">
+          <span [title]="confidential[col.field]">{{ confidential[col.field] }}</span>
+        </ng-template>
+      </p-column>
+      <p-column field="ProjectName" header="Project Name" [filter]="true" filterMatchMode="contains" [style]="{'width':'25%'}">
+        <ng-template pTemplate="filter" let-col>
+          <input (keyup.enter)="confidentialdt.filter($event.value,col.field,col.filterMatchMode)" [(ngModel)]="confidentialSearchProjectName"
+            type="text" placeholder="Search Project Name" class="ui-column-filter ui-inputtext ui-widget ui-state-default ui-corner-all"
+          />
+        </ng-template>
+        <ng-template let-col let-confidential="rowData" let-ri="rowIndex" pTemplate="body">
+          <span [title]="confidential[col.field]">{{ confidential[col.field] }}</span>
+        </ng-template>
+      </p-column>
+      <p-column field="AssessmentTypeName" header="Assessment" [style]="{'width':'12%'}"></p-column>
+      <!-- <p-column field="LastModifyDate" header="Last Modified" [style]="{'width':'15%'}"></p-column>  -->
+      <p-column field="LastModifyDate" header="Last Modified" [style]="{'width':'12%'}">
+        <ng-template let-col let-confidential="rowData" let-ri="rowIndex" pTemplate="body">
+          <span>{{ confidential[col.field] }}</span>
+          <a [href]="'/vRiskWebSite/Common/ReviewComment/' + confidential['TransId'] + '/' + confidential['ResultId']" target="_blank"><i class="fa fa-chevron-right arrow-link" aria-hidden="true"></i></a>
+        </ng-template>
+      </p-column>
+      <!-- <p-footer>
+        <div>footer</div>
+      </p-footer> -->
     </p-dataTable>
   </p-tabPanel>
-  <p-tabPanel header="My Maintenance of Data">
-    Content 2
+  <p-tabPanel lazy="true" header="My Maintenance of Data" [headerStyle]="{'font-size':'15px'}">
+    <p-dataTable [value]="maintenances" resizableColumns="true" selectionMode="single" [loading]="maintenanceLoading" loadingIcon="fa-spinner"
+      [paginator]="true" [rows]="maintenanceRows" [totalRecords]="maintenanceTotalRecords" [(first)]="maintenanceFirst" [lazy]="true"
+      [rowsPerPageOptions]="[15,30,100]" (onLazyLoad)="GetMyMaintenance($event)" #maintenancedt exportFilename="MyMaintenanceData"
+      [responsive]="true">
+      <!-- <p-header>
+        <div class="ui-helper-clearfix">
+          <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="maintenancedt.exportCSV()" style="float:right"></button>
+        </div>
+      </p-header> -->
+      <!-- [responsive]="true" [stacked]="stacked" -->
+      <p-column field="ResultId" header="ResultId" hidden="true" [style]="{'display':'none'}"></p-column>
+      <p-column field="Status" header="Engagement Status" [style]="{'width':'12%'}">
+        <ng-template let-col let-maintenance="rowData" let-ri="rowIndex" pTemplate="body">
+          <span [class.reviewedTag]="maintenance[col.field]=='Completed'" [class.pendingTag]="maintenance[col.field]!='Completed'">
+            {{maintenance[col.field]}}</span>
+        </ng-template>
+      </p-column>
+      <p-column field="ClientName" header="Client" [filter]="true" filterMatchMode="contains">
+        <ng-template pTemplate="filter" let-col>
+          <input (keyup.enter)="maintenancedt.filter($event.value,col.field,col.filterMatchMode)" [(ngModel)]="maintenanceSearchClientName"
+            type="text" placeholder="Search Client Name" class="ui-column-filter ui-inputtext ui-widget ui-state-default ui-corner-all"
+          />
+        </ng-template>
+        <ng-template let-col let-maintenance="rowData" let-ri="rowIndex" pTemplate="body">
+          <span [title]="maintenance[col.field]">{{ maintenance[col.field] }}</span>
+        </ng-template>
+      </p-column>
+      <p-column field="ProjectName" header="Project Name" [filter]="true" filterMatchMode="contains" [style]="{'width':'25%'}">
+        <ng-template pTemplate="filter" let-col>
+          <input (keyup.enter)="maintenancedt.filter($event.value,col.field,col.filterMatchMode)" [(ngModel)]="maintenanceSearchProjectName"
+            type="text" placeholder="Search Project Name" class="ui-column-filter ui-inputtext ui-widget ui-state-default ui-corner-all"
+          />
+        </ng-template>
+        <ng-template let-col let-maintenance="rowData" let-ri="rowIndex" pTemplate="body">
+          <span [title]="maintenance[col.field]">{{ maintenance[col.field] }}</span>
+        </ng-template>
+      </p-column>
+      <p-column field="Exclusivity" header="Exclusivity" [filter]="true" filterMatchMode="contains" [style]="{'width':'15%'}">
+        <ng-template pTemplate="filter" let-col>
+          <p-dropdown appendTo="body" [options]="maintenanceExclusivityOptions" [(ngModel)]="maintenanceExclusivity" [style]="{'width':'100%'}"
+            (onChange)="maintenancedt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
+        </ng-template>
+      </p-column>
+      <p-column field="MORP" header="MORP" [filter]="true" filterMatchMode="contains" [style]="{'width':'10%'}">
+        <ng-template pTemplate="filter" let-col>
+          <p-dropdown appendTo="body" [options]="maintenanceIsMORPOptions" [(ngModel)]="maintenanceIsMORP" [style]="{'width':'100%'}"
+            (onChange)="maintenancedt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
+        </ng-template>
+      </p-column>
+      <p-column field="LastModifyDate" header="Last Modified" [style]="{'width':'10%'}">
+        <ng-template let-col let-maintenance="rowData" let-ri="rowIndex" pTemplate="body">
+          <span> {{ maintenance[col.field] }} </span>
+          <a [href]="'/vRiskWebSite/EAC/Exclusivity/' + maintenance['ResultId']" target="_blank"><i class="fa fa-chevron-right arrow-link" aria-hidden="true"></i></a>
+        </ng-template>
+      </p-column>
+      <!-- <p-footer>
+        <div>footer</div>
+      </p-footer> -->
+    </p-dataTable>
   </p-tabPanel>
-  <p-tabPanel header="Independence Assessment">
-    Content 3
+  <p-tabPanel lazy="true" header="Independence Assessment" [headerStyle]="{'font-size':'15px'}">
+    <p-dataTable [value]="independences" resizableColumns="true" selectionMode="single" [loading]="independenceLoading" loadingIcon="fa-spinner"
+      [paginator]="true" [rows]="independenceRows" [totalRecords]="independenceTotalRecords" [(first)]="independenceFirst"
+      [rowsPerPageOptions]="[15,30,100]" [lazy]="true" (onLazyLoad)="GetIndependenceAssessment($event)" #independencedt [responsive]="true">
+      <!-- <p-header>
+        <div class="ui-helper-clearfix">
+          <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="independencedt.exportCSV()" style="float:right"></button>
+        </div>
+      </p-header> -->
+      <p-column field="TransId" header="TransId" hidden="true" [style]="{'display':'none'}"></p-column>
+      <p-column field="ResultId" header="ResultId" hidden="true" [style]="{'display':'none'}"></p-column>
+      <p-column field="Status" header="Status" [style]="{'width':'12%'}">
+        <ng-template let-col let-independence="rowData" let-ri="rowIndex" pTemplate="body">
+          <span [class.reviewedTag]="independence[col.field]=='Completed'" [class.pendingTag]="independence[col.field]!='Completed'">
+            {{independence[col.field]}}</span>
+        </ng-template>
+      </p-column>
+      <p-column field="ClientName" header="Client" [filter]="true" filterMatchMode="contains">
+        <ng-template pTemplate="filter" let-col>
+          <input (keyup.enter)="independencedt.filter($event.value,col.field,col.filterMatchMode)" [(ngModel)]="independenceSearchClient"
+            type="text" placeholder="Search Client Name" class="ui-column-filter ui-inputtext ui-widget ui-state-default ui-corner-all"
+          />
+        </ng-template>
+        <ng-template let-col let-independence="rowData" let-ri="rowIndex" pTemplate="body">
+          <span [title]="independence[col.field]">{{ independence[col.field] }}</span>
+        </ng-template>
+      </p-column>
+      <p-column field="Reviewer" header="Review By" [style]="{'width':'15%'}"></p-column>
+      <p-column field="LastModifyDate" header="Last Modified" [style]="{'width':'10%'}">
+        <ng-template let-col let-independence="rowData" let-ri="rowIndex" pTemplate="body">
+          <span>
+             {{ independence[col.field] }}  
+          </span>
+          <a [href]="'/vRiskWebSite/IA/IOFillAdditional/' + independence['TransId'] + '/' + independence['ResultId']" target="_blank"><i class="fa fa-chevron-right arrow-link" aria-hidden="true"></i></a>
+        </ng-template>
+      </p-column>
+      <!-- <p-footer>
+      </p-footer> -->
+    </p-dataTable>
   </p-tabPanel>
-  <p-tabPanel header="Conflict Pre clearance">
-    Content 3
+  <p-tabPanel lazy="true" header="Conflict Pre clearance" [headerStyle]="{'font-size':'15px'}">
+    <p-dataTable [value]="conflicts" resizableColumns="true" selectionMode="single" [loading]="conflictLoading" loadingIcon="fa-spinner"
+      [paginator]="true" [rows]="conflictRows" [totalRecords]="conflictTotalRecords" [(first)]="conflictFirst" [rowsPerPageOptions]="[15,30,100]"
+      [lazy]="true" (onLazyLoad)="GetConflictPreClearance($event)" #conflictdt [responsive]="true">
+      <!-- <p-header>
+        <div class="ui-helper-clearfix">
+          <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="conflictdt.exportCSV()" style="float:right"></button>
+        </div>
+      </p-header> -->
+      <p-column field="TransId" header="TransId" hidden="true" [style]="{'display':'none'}"></p-column>
+      <p-column field="ResultId" header="ResultId" hidden="true" [style]="{'display':'none'}"></p-column>
+      <p-column field="Status" header="Status" [style]="{'width':'12%'}">
+        <ng-template let-col let-conflict="rowData" let-ri="rowIndex" pTemplate="body">
+          <span [class.reviewedTag]="conflict[col.field]=='Completed'" [class.pendingTag]="conflict[col.field]!='Completed'">
+            {{conflict[col.field]}}</span>
+        </ng-template>
+      </p-column>
+      <p-column field="ClientName" header="Client" [filter]="true" filterMatchMode="contains">
+        <ng-template pTemplate="filter" let-col>
+          <input (keyup.enter)="conflictdt.filter($event.value,col.field,col.filterMatchMode)" [(ngModel)]="conflictSearchClientName"
+            type="text" placeholder="Search Client Name" class="ui-column-filter ui-inputtext ui-widget ui-state-default ui-corner-all"
+          />
+        </ng-template>
+        <ng-template let-col let-conflict="rowData" let-ri="rowIndex" pTemplate="body">
+          <span [title]="conflict[col.field]">{{ conflict[col.field] }}</span>
+        </ng-template>
+      </p-column>
+      <p-column field="ProjectName" header="Project Name" [filter]="true" filterMatchMode="contains" [style]="{'width':'25%'}">
+        <ng-template pTemplate="filter" let-col>
+          <input (keyup.enter)="conflictdt.filter($event.value,col.field,col.filterMatchMode)" [(ngModel)]="conflictSearchProjectName"
+            type="text" placeholder="Search Project Name" class="ui-column-filter ui-inputtext ui-widget ui-state-default ui-corner-all"
+          />
+        </ng-template>
+        <ng-template let-col let-conflict="rowData" let-ri="rowIndex" pTemplate="body">
+          <span [title]="conflict[col.field]">{{ conflict[col.field] }}</span>
+        </ng-template>
+      </p-column>
+      <p-column field="AssessmentTypeName" header="Assessment" [style]="{'width':'15%'}"></p-column>
+      <p-column field="LastModifyDate" header="Last Modified" [style]="{'width':'10%'}">
+        <ng-template let-col let-conflict="rowData" let-ri="rowIndex" pTemplate="body">
+          <span>
+             {{ conflict[col.field] }}  
+          </span>
+          <a [href]="'/vRiskWebSite/CCPre/DetailResult/' + conflict['ClientID'] + '/' + conflict['ResultId']" target="_blank"><i class="fa fa-chevron-right arrow-link" aria-hidden="true"></i></a>
+        </ng-template>
+      </p-column>
+      <!-- <p-footer>
+        <div>footer</div>
+      </p-footer> -->
+    </p-dataTable>
   </p-tabPanel>
-  <p-tabPanel header="Quick RC">
-    Content 3
+  <p-tabPanel lazy="true" header="Quick RC" [headerStyle]="{'font-size':'15px'}">
+    <p-dataTable [value]="quickRCs" resizableColumns="true" selectionMode="single" [loading]="quickRCLoading" loadingIcon="fa-spinner"
+      [paginator]="true" [rows]="quickRCRows" [totalRecords]="quickRCTotalRecords" [(first)]="quickRCFirst" [rowsPerPageOptions]="[15,30,100]"
+      [lazy]="true" (onLazyLoad)="GetQuickRCCC($event)" #quickRCdt [responsive]="true">
+      <!-- <p-header>
+        <div class="ui-helper-clearfix">
+          <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="quickRCdt.exportCSV()" style="float:right"></button>
+        </div>
+      </p-header> -->
+      <p-column field="ResultId" header="ResultId" hidden="true" [style]="{'display':'none'}"></p-column>
+      <p-column field="Status" header="Status" [style]="{'width':'12%'}">
+        <ng-template let-col let-quickRC="rowData" let-ri="rowIndex" pTemplate="body">
+          <span [class.reviewedTag]="quickRC[col.field]=='Completed'" [class.pendingTag]="quickRC[col.field]!='Completed'">
+            {{quickRC[col.field]}}</span>
+        </ng-template>
+      </p-column>
+      <p-column field="ClientName" header="Client" [filter]="true" filterMatchMode="contains">
+        <ng-template pTemplate="filter" let-col>
+          <input (keyup.enter)="quickRCdt.filter($event.value,col.field,col.filterMatchMode)" [(ngModel)]="quickRCSearchClientName"
+            type="text" placeholder="Search Client Name" class="ui-column-filter ui-inputtext ui-widget ui-state-default ui-corner-all"
+          />
+        </ng-template>
+        <ng-template let-col let-quickRC="rowData" let-ri="rowIndex" pTemplate="body">
+          <span [title]="quickRC[col.field]">{{ quickRC[col.field] }}</span>
+        </ng-template>
+      </p-column>
+      <p-column field="Reviewer" header="Review By" [style]="{'width':'15%'}"></p-column>
+      <p-column field="LastModifyDate" header="Last Modified" [style]="{'width':'10%'}">
+        <ng-template let-col let-quickRC="rowData" let-ri="rowIndex" pTemplate="body">
+          <span>
+             {{ quickRC[col.field] }}  
+          </span>
+          <a [href]="'/vRiskWebSite/IA/IOFillAdditional/' + quickRC['TransId'] + '/' + quickRC['ResultId']" target="_blank"><i class="fa fa-chevron-right arrow-link" aria-hidden="true"></i></a>
+        </ng-template>
+      </p-column>
+      <!-- <p-footer>
+      </p-footer> -->
+    </p-dataTable>
   </p-tabPanel>
 </p-tabView>

@@ -1,5 +1,5 @@
 //My Maintenance of Data
-export class ExclusivityData { 
+export class MyMaintenance { 
   constructor() {
   }
   ResultId: number;

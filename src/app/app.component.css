@@ -1,0 +1,26 @@
+tbody tr{
+  padding: 6px 0;
+}
+.ui-datatable-data>tr>td{
+  padding: 9px 6px;
+}
+.arrow-link{
+  padding: 0 5px;
+}
+.dropdown-search{
+  position: relative;
+}
+.ui-cell-data{
+  padding: 9px 6px;
+}
+
+.ui-datatable .ui-datatable-data > tr > td, .ui-datatable .ui-datatable-tfoot > tr > td, .ui-datatable .ui-datatable-thead > tr > th{
+  padding: 9px 15px;
+}
+
+.ui-datatable .ui-datatable-data > tr, .ui-datatable .ui-datatable-tfoot > tr, .ui-datatable .ui-datatable-thead > tr {
+  margin: 9px auto;
+}
+.tabHeader li a{
+  font-size: 15px;
+}
